@@ -20,9 +20,6 @@
 │   ├── monuments.db        # SQLite database populated with 8,279 Pakistani monuments
 │   └── balltree.pkl        # Serialized BallTree spatial index for fast distance queries
 ├── test_images/            # 10 downloaded and geotagged JPG images for verification
-├── phase1.ipynb            # Phase 1: OSM parsing, Wikidata queries & Wikipedia scraping
-├── phase2.ipynb            # Phase 2: Database coordinate cleaning & BallTree generation
-├── phase3.ipynb            # Phase 3: Zero-dependency retrieval pipeline simulations
 ├── app.py                  # Runtime Flask backend serving REST API endpoints
 ├── index.html              # Landing page
 ├── identify.html           # File upload / drag-and-drop page
