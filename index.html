@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xplore</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="transitions.css"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap');
+:root {
+  --rust: #aa3528;
+  --desk: #4a6275;
+  --gold: #c8960c;
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-body: 'Cormorant Garamond', Georgia, serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--desk);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(30,50,70,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(20,40,60,0.5) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M0 0h80v1H0zM0 20h80v1H0zM0 40h80v1H0zM0 60h80v1H0z'/%3E%3C/g%3E%3C/svg%3E");
+  font-family: var(--font-body);
+  padding: 1rem; overflow: hidden;
+}
+.journal-cover {
+  position: relative;
+  width: min(480px, 92vw);
+  min-height: min(640px, 88vh);
+  background: linear-gradient(160deg, #6b3a1f 0%, #4a2510 40%, #3a1e0d 100%);
+  border-radius: 4px 12px 12px 4px;
+  box-shadow: inset 16px 0 32px rgba(0,0,0,0.8), inset -2px 0 8px rgba(255,255,255,0.08), 24px 32px 64px rgba(0,0,0,0.7), 4px 4px 16px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 3rem 3rem 3rem 3.5rem;
+  z-index: 10;
+  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+}
+.journal-cover::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0;
+  width: 28px;
+  background: linear-gradient(to right, #1a0e06, #3a1e0d 60%, transparent);
+  border-radius: 4px 0 0 4px;
+}
+.journal-cover::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 26px;
+  width: 2px; background: rgba(255,255,255,0.06);
+}
+.leather-lines {
+  position: absolute; inset: 0; border-radius: 4px 12px 12px 4px;
+  background-image: repeating-linear-gradient(170deg, transparent, transparent 8px, rgba(0,0,0,0.04) 8px, rgba(0,0,0,0.04) 9px);
+  pointer-events: none;
+}
+.cover-border {
+  position: absolute; inset: 20px 20px 20px 36px;
+  border: 1px solid rgba(200,150,12,0.3); border-radius: 2px; pointer-events: none;
+}
+.cover-border::after {
+  content: ''; position: absolute; inset: 4px;
+  border: 1px solid rgba(200,150,12,0.15); border-radius: 1px;
+}
+.cover-content { position: relative; z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.app-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 12vw, 72px); letter-spacing: 0.18em; text-transform: uppercase;
+  background: linear-gradient(to bottom, #fdf0c0 0%, #d4a820 40%, #8a6010 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); line-height: 1;
+}
+.app-subtitle { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(200,150,12,0.6); }
+.divider-ornament { display: flex; align-items: center; gap: 12px; width: 100%; }
+.divider-ornament::before, .divider-ornament::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(200,150,12,0.4), transparent); }
+.divider-ornament span { color: rgba(200,150,12,0.5); font-size: 14px; }
+.tagline { font-family: var(--font-body); font-size: 15px; letter-spacing: 0.08em; color: rgba(230,210,170,0.6); text-transform: uppercase; line-height: 1.7; }
+.start-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 14px 40px;
+  background: rgba(244,234,216,0.96); border: 1px solid rgba(200,150,12,0.4); border-radius: 2px;
+  cursor: pointer; text-decoration: none; position: relative; transition: all 0.2s ease;
+  box-shadow: 4px 6px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.8); margin-top: 0.5rem;
+}
+.start-btn::before, .start-btn::after {
+  content: ''; position: absolute; width: 8px; height: 8px;
+  background: rgba(128,117,110,0.7); border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.5), 1px 1px 2px rgba(0,0,0,0.5);
+  top: 50%; transform: translateY(-50%);
+}
+.start-btn::before { left: 12px; }
+.start-btn::after { right: 12px; }
+.start-btn:hover { transform: translateY(-2px); box-shadow: 6px 10px 24px rgba(0,0,0,0.7); background: #fff8f0; }
+.start-btn-label { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #1a120b; }
+.compass-badge { position: absolute; top: 28px; right: 28px; width: 56px; height: 56px; border-radius: 50%; background: rgba(244,234,216,0.1); border: 2px solid rgba(200,150,12,0.25); display: flex; align-items: center; justify-content: center; }
+.compass-badge::after { content: ''; position: absolute; inset: 4px; border: 1px dashed rgba(200,150,12,0.2); border-radius: 50%; }
+.peeking-polaroid { position: fixed; bottom: -10px; right: max(16px, calc(50vw - 310px)); width: 140px; background: #fff; padding: 8px 8px 32px; box-shadow: 4px 6px 20px rgba(0,0,0,0.5); transform: rotate(12deg); z-index: 5; pointer-events: none; }
+.peeking-polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; filter: sepia(20%) contrast(105%); }
+.peeking-polaroid span { position: absolute; bottom: 6px; left: 0; right: 0; text-align: center; font-family: var(--font-body); font-size: 12px; letter-spacing: 0.04em; color: #80756e; }
+.key-scatter { position: fixed; bottom: 20%; left: max(12px, calc(50vw - 340px)); transform: rotate(-35deg); z-index: 2; pointer-events: none; filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.4)); }
+.pk-pin { position: fixed; top: 22%; left: max(20px, calc(50vw - 320px)); width: 32px; height: 32px; border-radius: 50%; background: #215732; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; transform: rotate(-15deg); z-index: 5; pointer-events: none; box-shadow: 2px 4px 8px rgba(0,0,0,0.5); overflow: hidden; }
+.pk-pin::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 30%; background: rgba(255,255,255,0.9); }
+.coin { position: fixed; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #f0d060, #b8900c, #7a5e08); box-shadow: 2px 3px 8px rgba(0,0,0,0.5); z-index: 2; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="key-scatter cover-deco"><span class="material-symbols-outlined" style="font-size:42px;color:rgba(180,180,180,0.35)">key</span></div>
+<div class="pk-pin cover-deco"><span style="position:relative;z-index:2">☾★</span></div>
+<div class="coin cover-deco" style="width:28px;height:28px;top:15%;right:max(8px,calc(50vw - 310px))"></div>
+<div class="coin cover-deco" style="width:18px;height:18px;bottom:30%;right:max(16px,calc(50vw - 280px));opacity:0.7"></div>
+<div class="peeking-polaroid cover-deco">
+  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWEpUM5tILJB-gu9wEeaA1yzH39VQQK7l_YSJEUVrGCykg8BviOO8TZE5V6-K-RgIA_tYyWRza6GuTPbskTb9UIOjGndNF-wW33zGwrznV-ACWzZn3dHWhqhjTOwvK_q70HhzQPf7TDthWypoeh1NqAuR7WDKyYmHGuT2Pu1jOWdHO2FF-wx4ecicI2HogwQO9famcYGcsezHmHnSPMxq0ULV3eUTNXDK6WJaChk9hxsTdbRnvi6HcqH_owkPWnL8HW9apOQaAoe5-" alt="Map"/>
+  <span>First Clue...</span>
+</div>
+<div class="journal-underlay cover-deco"></div>
+<div class="journal-cover" id="book">
+  <div class="leather-lines"></div>
+  <div class="cover-border"></div>
+  <div class="compass-badge">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:rgba(200,150,12,0.6);font-size:28px">explore</span>
+  </div>
+  <div class="cover-content">
+    <div>
+      <div class="app-subtitle">Pakistan Heritage Archive</div>
+      <div class="app-title">Xplore</div>
+    </div>
+    <div class="divider-ornament">
+      <span class="material-symbols-outlined" style="font-size:14px">star</span>
+    </div>
+    <p class="tagline">Uncover the stories<br>behind the monuments</p>
+    <a href="identify.html" class="start-btn">
+      <span class="start-btn-label">Begin Journey</span>
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:#aa3528;font-size:18px">explore</span>
+    </a>
+  </div>
+</div>
+<script src="transitions.js"></script>
+</body>
+</html>

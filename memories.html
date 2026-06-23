@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xplore – Memories</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="transitions.css"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap');
+:root{--rust:#aa3528;--desk:#4a6275;--gold:#c8960c;--parchment:#f4ead8;--ink:#1a120b;--font-display:'Cinzel',Georgia,serif;--font-body:'Cormorant Garamond',Georgia,serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;background-color:var(--desk);background-image:radial-gradient(ellipse at 20% 50%,rgba(30,50,70,0.5) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(20,40,60,0.4) 0%,transparent 50%),url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M0 0h80v1H0zM0 20h80v1H0zM0 40h80v1H0zM0 60h80v1H0z'/%3E%3C/g%3E%3C/svg%3E");font-family:var(--font-body);display:flex;flex-direction:column;padding-bottom:72px;}
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(244,234,216,0.97);border-bottom:1px solid rgba(200,150,12,0.2);box-shadow:0 2px 12px rgba(0,0,0,0.3);}
+.brand{font-family:var(--font-display);font-size:22px;letter-spacing:0.16em;color:#1a120b;text-decoration:none;}
+.brand span{color:var(--rust);}
+main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;}
+.spread{width:100%;max-width:960px;min-height:680px;background:linear-gradient(to right,#e8dcc4 0%,#f4ebd8 48%,#d4c4a8 50%,#f4ebd8 52%,#e8dcc4 100%);box-shadow:inset 0 0 20px rgba(0,0,0,0.1),0 16px 48px rgba(0,0,0,0.45);border-radius:6px;display:flex;position:relative;overflow:hidden;}
+.spread::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");z-index:0;}
+.center-fold{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:6px;background:linear-gradient(to right,rgba(0,0,0,0.12),rgba(0,0,0,0.04),rgba(255,255,255,0.08),rgba(0,0,0,0.06));z-index:5;pointer-events:none;}
+.page{flex:1;padding:36px 40px;position:relative;z-index:1;}
+.page-num{position:absolute;top:14px;right:20px;font-family:var(--font-display);font-size:9px;letter-spacing:0.2em;color:rgba(128,117,110,0.5);}
+.page-corner{position:absolute;top:0;right:0;width:52px;height:52px;background:linear-gradient(225deg,rgba(255,255,255,0.7) 0%,transparent 60%);border-bottom-left-radius:8px;z-index:20;cursor:pointer;transition:all 0.25s;}
+.page-corner:hover{width:64px;height:64px;}
+.page-corner .material-symbols-outlined{position:absolute;top:8px;right:8px;font-size:14px;color:rgba(128,117,110,0.5);}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.page-heading{font-family:var(--font-display);font-size:32px;letter-spacing:0.06em;color:#2a1a0e;transform:rotate(-2deg);display:inline-block;}
+/* ---- SEARCH CARD ---- */
+.search-card{background:rgba(254,250,240,0.92);border:2px solid #d3c5b3;padding:12px 14px;border-radius:2px;position:relative;transform:rotate(1deg);box-shadow:1px 2px 6px rgba(0,0,0,0.08);margin-bottom:24px;}
+.search-card-tape{position:absolute;top:-10px;left:12px;width:56px;height:18px;background:rgba(255,255,255,0.42);box-shadow:0 1px 3px rgba(0,0,0,0.1);transform:rotate(2deg);}
+.search-inner{display:flex;align-items:center;gap:8px;border-bottom:1px solid #e1d5c5;padding-bottom:8px;margin-bottom:6px;}
+.search-inner input{background:transparent;border:none;outline:none;font-family:var(--font-body);font-size:16px;letter-spacing:0.02em;color:#1a120b;width:100%;}
+.search-inner input::placeholder{color:rgba(128,117,110,0.6);}
+.search-meta{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:8px;letter-spacing:0.13em;color:rgba(128,117,110,0.55);}
+/* ---- POLAROID GRID ---- */
+.pol-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative;}
+.polaroid{background:#fff;padding:9px 9px 34px;box-shadow:2px 3px 8px rgba(0,0,0,0.14);position:relative;transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275),box-shadow 0.3s ease;cursor:pointer;}
+.polaroid:hover{transform:scale(1.06) rotate(0deg) !important;box-shadow:5px 8px 18px rgba(0,0,0,0.22);z-index:20;}
+.pol-img{width:100%;aspect-ratio:1;object-fit:cover;filter:sepia(10%) contrast(108%) saturate(100%);}
+.pol-cap{text-align:center;font-family:var(--font-body);font-size:13px;letter-spacing:0.03em;color:#4b3b2f;margin-top:2px;}
+.pol-year{font-size:9px;color:#80756e;letter-spacing:0.1em;}
+.tape{background:rgba(255,255,255,0.42);box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+/* ---- DELETE BUTTON on polaroid ---- */
+.pol-delete{position:absolute;top:4px;right:4px;background:rgba(170,53,40,0.85);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:13px;line-height:20px;text-align:center;cursor:pointer;display:none;z-index:30;padding:0;}
+.polaroid:hover .pol-delete{display:block;}
+/* ---- EMPTY STATE ---- */
+.empty-state{grid-column:1/-1;text-align:center;padding:32px 16px;}
+.empty-state .material-symbols-outlined{font-size:48px;color:rgba(128,117,110,0.3);display:block;margin-bottom:12px;}
+.empty-state p{font-family:var(--font-body);font-size:16px;color:rgba(78,69,63,0.5);font-style:italic;}
+/* ---- DETAIL DRAWER ---- */
+.detail-drawer{display:none;grid-column:1/-1;background:#fcf9f2;background-image:linear-gradient(#e0d5c1 1px,transparent 1px);background-size:100% 28px;padding:16px 18px;box-shadow:1px 2px 8px rgba(0,0,0,0.1);position:relative;transform:rotate(0.5deg);margin-top:4px;}
+.detail-drawer.open{display:block;}
+.drawer-name{font-family:var(--font-display);font-size:14px;letter-spacing:0.08em;color:var(--ink);margin-bottom:2px;}
+.drawer-urdu{font-family:var(--font-body);font-size:15px;font-style:italic;color:var(--rust);}
+.drawer-loc{font-family:var(--font-display);font-size:9px;letter-spacing:0.12em;color:#80756e;margin:4px 0 6px;}
+.drawer-desc{font-family:var(--font-body);font-size:14px;color:#4e453f;line-height:1.55;}
+/* ---- NOTE CARDS ---- */
+.pushpin{position:absolute;z-index:10;color:var(--rust);}
+.note-dark{background:#2a2d34;color:#f4edd9;padding:16px 18px;transform:rotate(-1deg);display:inline-block;max-width:80%;margin-left:8px;box-shadow:2px 3px 10px rgba(0,0,0,0.25);}
+.note-dark .note-text{font-family:var(--font-body);font-size:15px;letter-spacing:0.01em;line-height:1.55;font-style:italic;}
+.note-dark .note-attr{text-align:right;margin-top:6px;font-family:var(--font-display);font-size:8px;letter-spacing:0.12em;opacity:0.6;}
+.stamp{position:absolute;border:3px solid var(--rust);color:var(--rust);border-radius:50%;width:76px;height:76px;display:flex;align-items:center;justify-content:center;transform:rotate(-15deg);opacity:0.75;pointer-events:none;}
+.stamp-inner{border:1px solid var(--rust);border-radius:50%;width:calc(100%-10px);height:calc(100%-10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:8px;}
+.stamp-text{font-family:var(--font-display);font-size:7px;letter-spacing:0.16em;text-transform:uppercase;text-align:center;line-height:1.5;}
+.note-light{background:#fcf8f2;border:1px solid #e8d8c8;padding:14px 16px;transform:rotate(-2deg);display:inline-block;max-width:70%;position:relative;box-shadow:1px 1px 6px rgba(0,0,0,0.08);}
+/* ---- COUNT BADGE ---- */
+#entry-count{font-family:var(--font-display);font-size:8px;letter-spacing:0.14em;color:rgba(128,117,110,0.6);margin-left:8px;}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;justify-content:space-around;align-items:center;padding:10px 16px 14px;background:rgba(244,234,216,0.97);border-top:1px solid rgba(200,150,12,0.15);box-shadow:0 -4px 16px rgba(0,0,0,0.25);border-radius:16px 16px 0 0;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;padding:4px 12px;border-radius:6px;transition:all 0.15s;cursor:pointer;}
+.nav-item span.material-symbols-outlined{font-size:22px;color:#80756e;}
+.nav-item .nav-label{font-family:var(--font-display);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#80756e;}
+.nav-item.active{background:rgba(170,53,40,0.12);}
+.nav-item.active span.material-symbols-outlined,.nav-item.active .nav-label{color:var(--rust);}
+.nav-item:hover{background:rgba(0,0,0,0.04);}
+@media(max-width:640px){.spread{flex-direction:column;min-height:unset;}.center-fold{display:none;}.page{padding:24px 18px;}.stamp{display:none;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="brand">X<span>plore</span></a>
+  <span class="material-symbols-outlined" style="color:#80756e;cursor:pointer;font-size:24px">account_circle</span>
+</header>
+
+<main>
+  <div class="spread">
+    <div class="center-fold"></div>
+
+    <!-- LEFT PAGE -->
+    <div class="page">
+      <div class="page-num">Pg. 08</div>
+      <div class="page-header">
+        <div>
+          <div class="page-heading">Memory Album</div>
+          <span id="entry-count"></span>
+        </div>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--rust);opacity:0.7;font-size:26px;transform:rotate(12deg)">favorite</span>
+      </div>
+
+      <!-- Search card -->
+      <div class="search-card" style="margin-bottom:24px;">
+        <div class="search-card-tape"></div>
+        <div class="search-inner">
+          <span class="material-symbols-outlined" style="font-size:17px;color:rgba(78,69,63,0.5)">search</span>
+          <input type="text" id="search-input" placeholder="Search memories..."/>
+        </div>
+        <div class="search-meta">
+          <span>INDEX CARD No. 42</span>
+          <span>DEPT. OF ARCHIVES</span>
+        </div>
+      </div>
+
+      <!-- Left polaroid grid — filled by JS -->
+      <div class="pol-grid" id="left-grid"></div>
+    </div>
+
+    <!-- RIGHT PAGE -->
+    <div class="page">
+      <a href="#" class="page-corner">
+        <span class="material-symbols-outlined">arrow_forward_ios</span>
+      </a>
+
+      <div class="stamp" style="top:28%;left:36%;">
+        <div class="stamp-inner" style="width:56px;height:56px;border:1px solid var(--rust);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+          <span class="stamp-text">Verified<br/>Explorer</span>
+          <span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1">verified</span>
+        </div>
+      </div>
+
+      <!-- Right polaroid grid — filled by JS -->
+      <div class="pol-grid" id="right-grid" style="margin-top:48px;"></div>
+
+      <!-- Add memory CTA -->
+      <div style="margin-top:auto;padding-top:20px;display:flex;justify-content:center;">
+        <a href="identify.html" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--rust);border:2px solid var(--rust);padding:8px 20px;border-radius:2px;text-decoration:none;transform:rotate(1deg);transition:all 0.2s;">
+          <span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 0">add_a_photo</span>
+          New Memory
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<nav>
+  <a href="memories.html" class="nav-item active">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">menu_book</span>
+    <span class="nav-label">Journal</span>
+  </a>
+  <a href="identify.html" class="nav-item">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0">photo_camera</span>
+    <span class="nav-label">Identify</span>
+  </a>
+  <a href="memories.html" class="nav-item">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0">auto_stories</span>
+    <span class="nav-label">Memories</span>
+  </a>
+  <a href="profile.html" class="nav-item">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0">person</span>
+    <span class="nav-label">Profile</span>
+  </a>
+</nav>
+
+<script>
+const JOURNAL_KEY = 'xplore_journal';
+const ROTATIONS   = [-3, 2, -1, 3, -2, 1, -4, 2];
+
+function loadJournal() {
+  try { return JSON.parse(localStorage.getItem(JOURNAL_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveJournal(entries) {
+  localStorage.setItem(JOURNAL_KEY, JSON.stringify(entries));
+}
+
+function deleteEntry(id) {
+  const journal = loadJournal().filter(e => e.id !== id);
+  saveJournal(journal);
+  renderJournal(document.getElementById('search-input').value);
+}
+
+function toggleDrawer(id) {
+  const existing = document.querySelector('.detail-drawer.open');
+  if (existing) {
+    const openId = parseInt(existing.dataset.id);
+    existing.classList.remove('open');
+    if (openId === id) return;
+  }
+  const drawer = document.querySelector(`.detail-drawer[data-id="${id}"]`);
+  if (drawer) drawer.classList.add('open');
+}
+
+function buildPolaroid(entry, index) {
+  const rot  = ROTATIONS[index % ROTATIONS.length];
+  const mtop = index % 2 === 1 ? 'margin-top:24px;' : '';
+
+  const pol = document.createElement('div');
+  pol.className = 'polaroid';
+  pol.style.cssText = `transform:rotate(${rot}deg);${mtop}`;
+  pol.dataset.id = entry.id;
+
+  const hasImg = entry.imageURL && entry.imageURL.length > 10;
+  pol.innerHTML = `
+    <button class="pol-delete" title="Remove" onclick="event.stopPropagation();deleteEntry(${entry.id})">×</button>
+    ${hasImg
+      ? `<img class="pol-img" src="${entry.imageURL}" alt="${entry.name}" onerror="this.style.display='none'">`
+      : `<div class="pol-img" style="background:linear-gradient(135deg,#f4ead8,#e8dcc4);display:flex;align-items:center;justify-content:center;">
+           <span class="material-symbols-outlined" style="font-size:36px;color:rgba(128,117,110,0.3);font-variation-settings:'FILL' 0">account_balance</span>
+         </div>`
+    }
+    <div class="pol-cap">${entry.name}<br><span class="pol-year">${entry.location} · ${entry.savedAt}</span></div>
+  `;
+  pol.addEventListener('click', () => toggleDrawer(entry.id));
+
+  const drawer = document.createElement('div');
+  drawer.className = 'detail-drawer';
+  drawer.dataset.id = entry.id;
+  
+  let factsHtml = '';
+  if (entry.facts && entry.facts.length > 0) {
+    factsHtml = `
+      <div style="margin-top:12px;text-align:left;">
+        <div style="font-family:var(--font-display);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);margin-bottom:4px;font-weight:600;">Cool Facts</div>
+        <ul style="list-style-type:circle;padding-left:16px;font-family:var(--font-body);font-size:13px;color:#4e453f;line-height:1.45;">
+          ${entry.facts.map(fact => `<li style="margin-bottom:3px;">${fact}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  drawer.innerHTML = `
+    <div class="drawer-name">${entry.name}</div>
+    ${entry.urdu ? `<div class="drawer-urdu">${entry.urdu}</div>` : ''}
+    <div class="drawer-loc">
+      <span class="material-symbols-outlined" style="font-size:11px;vertical-align:middle;color:var(--gold)">location_on</span>
+      ${entry.location}
+      ${entry.has_exif ? `<span style="background:#e1efe0;color:#2e6f28;font-family:var(--font-display);font-size:8px;padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:0.1em;">GPS</span>` : ''}
+      <span style="float:right;font-family:var(--font-display);font-size:8px;letter-spacing:0.1em;color:var(--rust)">${entry.score}% match</span>
+    </div>
+    <div class="drawer-desc">${entry.desc}</div>
+    ${factsHtml}
+  `;
+
+  return { pol, drawer };
+}
+
+function renderJournal(query) {
+  let entries = loadJournal();
+  const q = (query || '').toLowerCase().trim();
+  if (q) entries = entries.filter(e =>
+    e.name.toLowerCase().includes(q) ||
+    e.location.toLowerCase().includes(q) ||
+    (e.desc || '').toLowerCase().includes(q)
+  );
+
+  const leftGrid  = document.getElementById('left-grid');
+  const rightGrid = document.getElementById('right-grid');
+  leftGrid.innerHTML  = '';
+  rightGrid.innerHTML = '';
+
+  const countEl = document.getElementById('entry-count');
+  countEl.textContent = entries.length ? `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}` : '';
+
+  if (entries.length === 0) {
+    leftGrid.innerHTML = `
+      <div class="empty-state">
+        <span class="material-symbols-outlined">photo_album</span>
+        <p>${q ? 'No matches found.' : 'No memories yet.<br>Identify a monument to get started.'}</p>
+      </div>`;
+    return;
+  }
+
+  /* Split entries across left (even indices) and right (odd indices) pages */
+  entries.forEach((entry, i) => {
+    const { pol, drawer } = buildPolaroid(entry, i);
+    const grid = i % 2 === 0 ? leftGrid : rightGrid;
+    grid.appendChild(pol);
+    grid.appendChild(drawer);
+  });
+
+  /* Hover lift effect */
+  document.querySelectorAll('.polaroid').forEach(el => {
+    el.addEventListener('mousedown', () => {
+      el.style.transform = 'scale(1.08) translateY(-4px)';
+      el.style.boxShadow = '6px 10px 24px rgba(0,0,0,0.25)';
+    });
+    ['mouseup','mouseleave'].forEach(ev => el.addEventListener(ev, () => {
+      el.style.transform = '';
+      el.style.boxShadow = '';
+    }));
+  });
+}
+
+/* ---- Search ---- */
+document.getElementById('search-input').addEventListener('input', function () {
+  renderJournal(this.value);
+});
+
+renderJournal();
+</script>
+<script src="transitions.js"></script>
+</body>
+</html>
