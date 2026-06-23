@@ -78,8 +78,3 @@ We have pre-configured 10 test images inside the `test_images/` folder represent
 
 ---
 
-## 📐 Development Phases (Jupyter Notebooks)
-
-1. **[Phase 1 (Data Pipeline)](file:///c:/Users/ALLI/Documents/Personal/xploree/phase1.ipynb):** Sourced raw geographical nodes from OpenStreetMap (Pakistan region PBF) and matched them against Wikidata entries. Scrapes Wikipedia using parallel thread workers and generates template-based descriptions/facts to build the main database.
-2. **[Phase 2 (Coordinate Indexing)](file:///c:/Users/ALLI/Documents/Personal/xploree/phase2.ipynb):** Cleans out-of-bounds coordinate anomalies and builds a haversine `BallTree` spatial index file (`balltree.pkl`).
-3. **[Phase 3 (Retrieval Pipeline)](file:///c:/Users/ALLI/Documents/Personal/xploree/phase3.ipynb):** Simulates the zero-dependency geotag extraction, BallTree querying, and fallback Gemini visual identification pipeline.
